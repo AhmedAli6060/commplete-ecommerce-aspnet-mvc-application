@@ -66,26 +66,24 @@ namespace eTickets.Migrations
                     EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     MovieCategory = table.Column<int>(type: "int", nullable: false),
                     CinemaId = table.Column<int>(type: "int", nullable: false),
-                    cinemaId = table.Column<int>(type: "int", nullable: true),
                     ActorId = table.Column<int>(type: "int", nullable: false),
-                    actorId = table.Column<int>(type: "int", nullable: true),
                     ProducerID = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Movies", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_Movies_Actors_actorId",
-                        column: x => x.actorId,
+                        name: "FK_Movies_Actors_ActorId",
+                        column: x => x.ActorId,
                         principalTable: "Actors",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Movies_Cinemas_cinemaId",
-                        column: x => x.cinemaId,
+                        name: "FK_Movies_Cinemas_CinemaId",
+                        column: x => x.CinemaId,
                         principalTable: "Cinemas",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Movies_Producers_ProducerID",
                         column: x => x.ProducerID,
@@ -98,40 +96,41 @@ namespace eTickets.Migrations
                 name: "Actors_Movies",
                 columns: table => new
                 {
-                    MovieId = table.Column<int>(type: "int", nullable: false),
-                    ActorId = table.Column<int>(type: "int", nullable: false)
+                    movieId = table.Column<int>(type: "int", nullable: false),
+                    actorId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Actors_Movies", x => new { x.ActorId, x.MovieId });
+                    table.PrimaryKey("PK_Actors_Movies", x => new { x.actorId, x.movieId });
                     table.ForeignKey(
-                        name: "FK_Actors_Movies_Actors_ActorId",
-                        column: x => x.ActorId,
+                        name: "FK_Actors_Movies_Actors_actorId",
+                        column: x => x.actorId,
                         principalTable: "Actors",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Actors_Movies_Movies_MovieId",
-                        column: x => x.MovieId,
+                        name: "FK_Actors_Movies_Movies_movieId",
+                        column: x => x.movieId,
                         principalTable: "Movies",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
+                        //onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Actors_Movies_MovieId",
+                name: "IX_Actors_Movies_movieId",
                 table: "Actors_Movies",
-                column: "MovieId");
+                column: "movieId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Movies_actorId",
+                name: "IX_Movies_ActorId",
                 table: "Movies",
-                column: "actorId");
+                column: "ActorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Movies_cinemaId",
+                name: "IX_Movies_CinemaId",
                 table: "Movies",
-                column: "cinemaId");
+                column: "CinemaId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Movies_ProducerID",

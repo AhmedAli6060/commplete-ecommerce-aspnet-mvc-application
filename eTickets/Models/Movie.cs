@@ -27,12 +27,12 @@ namespace eTickets.Models
         // Cinema
         public int CinemaId { get; set; }
         
-        [ForeignKey("cinemaId")]
+        [ForeignKey("CinemaId")]
         public Cinema Cinemas { get; set; }
 
         public int ActorId { get; set; }
 
-        [ForeignKey("actorId")]
+        [ForeignKey("ActorId")]
         public Actor Actor { get; set; }
     }
 }

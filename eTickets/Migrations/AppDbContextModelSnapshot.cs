@@ -113,19 +113,13 @@ namespace eTickets.Migrations
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("actorId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("cinemaId")
-                        .HasColumnType("int");
-
                     b.HasKey("ID");
 
+                    b.HasIndex("ActorId");
+
+                    b.HasIndex("CinemaId");
+
                     b.HasIndex("ProducerID");
-
-                    b.HasIndex("actorId");
-
-                    b.HasIndex("cinemaId");
 
                     b.ToTable("Movies");
                 });
@@ -172,17 +166,21 @@ namespace eTickets.Migrations
 
             modelBuilder.Entity("eTickets.Models.Movie", b =>
                 {
-                    b.HasOne("eTickets.Models.Producer", null)
-                        .WithMany("Movies")
-                        .HasForeignKey("ProducerID");
-
                     b.HasOne("eTickets.Models.Actor", "Actor")
                         .WithMany()
-                        .HasForeignKey("actorId");
+                        .HasForeignKey("ActorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("eTickets.Models.Cinema", "Cinemas")
                         .WithMany("Movies")
-                        .HasForeignKey("cinemaId");
+                        .HasForeignKey("CinemaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("eTickets.Models.Producer", null)
+                        .WithMany("Movies")
+                        .HasForeignKey("ProducerID");
 
                     b.Navigation("Actor");
 
